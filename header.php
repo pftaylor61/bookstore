@@ -41,8 +41,9 @@
 						if($var===''):?>
 							<h1><?php bloginfo('name'); ?></h1>
 						<?php else: ?>
-							<a href="<?php bloginfo('home'); ?>"><img src="<?php echo get_theme_mod('logo_uploader') ?>" class="img-responsive"></a>
+                                                        <a href="<?php bloginfo('home'); ?>"><img src="<?php echo get_theme_mod('logo_uploader') ?>" class="img-responsive" style="float:left;padding-right:5;"></a><h1><a href="<?php bloginfo('home'); ?>"><?php bloginfo('name'); ?></a></h1><p><?php echo bloginfo('description'); ?></p>
 					 <?php endif; ?>
+                                         
 					
 					
 				</div>
@@ -55,13 +56,14 @@
 						<div class="col-xs-6">
 							<div class="row">
 								<?php my_social_icons(); ?>
+                                                            
 							</div>
 							<div class="row" id="searchform">
 								<div class="right-inner-addon">
 
 									<i class="glyphicon glyphicon-search"></i>
 									<form method="get" action="<?php bloginfo('home'); ?>">
-										<input name="s" type="search" class="form-control searchform" placeholder="Search">
+										<input name="s" type="search" class="form-control searchform" placeholder="Search" value="hey!">
 									</form>
 								</div><!-- end of right-inner-addon-->
 							</div>

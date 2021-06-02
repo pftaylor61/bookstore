@@ -1,10 +1,15 @@
 /*
-Theme Name: RC Book Store
-Theme URI: www.rightclick.com
-Author: Ovi
-Author URI: www.facebook.com
-Description: Read More Learn More
-Tag: book store,blog etc
+* Theme Name: OCWS Book Store
+* Theme URI: https://oldcastleweb.com/themes/bookstore
+* Author: Oldcastle Web Solutions
+* Author URI: https://oldcastleweb.com
+* Description: This theme has been forked from the RC Bookstore theme, by Ovi - www.rightclick.com. It has been developed from _s (underscores), and has Bootstrap added. I have added Theme Options, and have begun tidying up some of the code.
+* Tag: book store, blog etc
+* Version:      0.1
+* License:      GNU General Public License v3 or later
+* License URI:  http://www.gnu.org/licenses/gpl-3.0.html
+* Text Domain:  bookstore
+* GitHub Theme URI: https://github.com/pftaylor61/bookstore
 
 */
 
@@ -303,6 +308,9 @@ footer{
 	min-height: 50px;
 	margin-top: 20px;
 	background-color: #00A6CF;
+        text-align: center !important;
+        margin-bottom: 10px;
+        margin-bottom: 1rem;
 }
 #footer{
 	padding-top: 20px;
@@ -370,6 +378,10 @@ footer{
 #copyright a:hover{
 	text-decoration: none;
 }
+#footer_credits {
+    text-align: center;
+}
+
 
 
 

@@ -70,7 +70,7 @@ get_header(); ?>
 						<div class="row" id="featBook">
 						<?php 
 							$pop = new WP_Query(array(
-								'post_type'=>'populer',
+								'post_type'=>'popular',
 								'posts_per_page'=>4
 								));
 						?>

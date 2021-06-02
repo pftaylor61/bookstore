@@ -23,6 +23,22 @@
 	<div id="copyright">
 		<p id="copy" style="color:<?php echo get_theme_mod('copyright_color'); ?>"><?php echo get_theme_mod('copyright_text');?></p>
 	</div>
+        <div id="footer_credits" class="container-grid copyright">
+
+    <p class="paragraph footer-fine-print"><br>
+    <?php 
+        $bookstore_footer_content = of_get_option('footer_content');
+        if (trim($bookstore_footer_content)=='') {
+            $bookstore_footer_content = bookstore_get_credits();
+        }
+        echo $bookstore_footer_content;
+    ?>
+    </p>
+    
+    
+    
+  </div><!-- /#footer_credits -->
+  
 </footer>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

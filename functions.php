@@ -17,12 +17,41 @@
 		add_theme_support('post-thumbnails');
 
 		load_theme_textdomain('bookstore',get_template_directory_uri().'/languages');
+                
+                /*
+                 * Enable support for Theme Options.
+                 * Rather than reinvent the wheel, we're using the Options Framework by Devin Price, so huge props to him!
+                 * https://wptheming.com/options-framework-theme/
+                 */
+                if ( !function_exists( 'optionsframework_init' ) ) {
+                            define( 'OPTIONS_FRAMEWORK_DIRECTORY',  get_template_directory_uri()  . '/inc/' );
+                            require_once dirname( __FILE__ ) . '/inc/options-framework.php';
+
+                            // Loads options.php from child or parent theme
+                            $optionsfile = locate_template( 'options.php' );
+                            load_template( $optionsfile );
+                    } // end routine for adding options framework
 
 		register_nav_menus(array(
 			'top_menu'=>__('Top Menu','bookstore'),
 			'main_menu'=>__('Main Menu','bookstore')
 			));
-	}
+                
+        // If WooCommerce is running, check if we should be displaying the Breadcrumbs
+        if( bookstore_is_commerce_active() && !of_get_option( 'woocommerce_breadcrumbs', '1' ) ) {
+            add_action( 'init', 'bookstore_remove_woocommerce_breadcrumbs' );
+        }
+        
+        // Enable support for WooCommerce
+		add_theme_support( 'woocommerce' );
+        
+		// Enable support for Classic Commerce
+		add_theme_support( 'classic-commerce' );
+                
+                // This theme supports a variety of post formats
+		add_theme_support( 'post-formats', array( 'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video' ) );
+                
+	} // end bookstore_default_function
 	add_action('after_setup_theme','bookstore_default_function');
 
 	
@@ -125,13 +154,13 @@
 			'supports'=>array('title','thumbnail')
 			));
 
-		register_post_type('populer',array(
+		register_post_type('popular',array(
 			'public'=>true,
-			'label'=>'populer',
+			'label'=>'popular',
 			'labels'=>array(
-				'name' => 'Populer Books',
-				'singuler_name' => 'Populer Book',
-				'add_new' => 'Add New Populer Book',
+				'name' => 'Popular Books',
+				'singuler_name' => 'Popular Book',
+				'add_new' => 'Add New Popular Book',
 				),
 			'supports'=>array('title','thumbnail')
 			));
@@ -140,7 +169,7 @@
 	add_action('init','bookstore_post_types');
 
 	function social_array(){
-		$social_sites = array('facebook','twitter','google-plus');
+		$social_sites = array('facebook','twitter','mewe','gab');
 		return $social_sites;
 	}
 
@@ -211,7 +240,7 @@
 			);
 
 		$customizevar->add_setting('second_slide',array(
-			'default'=>get_template_directory_uri().'/img/book_2.jpeg',
+			'default'=>get_template_directory_uri().'/img/book_2.jpg',
 			'transport'=>'refresh'
 			));
 
@@ -307,4 +336,70 @@
 	    
 	    return $args;
 	}
+        
+/**
+ * Return a string containing the footer credits & link
+ *
+ * @since Migdaloz 0.0.1
+ *
+ * @return string Footer credits & link
+ */
+if ( ! function_exists( 'bookstore_get_credits' ) ) {
+	function bookstore_get_credits() {
+		global $wp_version;
+		$output = '';
+		
+                $mycurtheme = wp_get_theme();
+                // $myparenttheme = wp_get_theme($mycurtheme->get('Template'));
+                // $myparenttheme_addtext = "";
+                /*
+                if ( is_child_theme() ) {
+					$myparenttheme_addtext = ', (a child theme of <a href="'.$myparenttheme->get('ThemeURI').'">'.$myparenttheme->get('Name').'</a>'.' v'.$myparenttheme->get('Version').')';
+				}
+                 * 
+                 */
+                $output = 'This website is powered by <a href="https://classicpress.net">ClassicPress</a> (version '.$wp_version.'), using the <strong><a href="'.$mycurtheme->get('ThemeURI').'">'.$mycurtheme->get('Name').'</a></strong> theme, version '.$mycurtheme->get('Version').', from <a href="'.$mycurtheme->get('AuthorURI').'">Old Castle Web Solutions</a>.';
+                /*
+                 * This next bit is in case I add a special note. See README.md
+                 */
+                //if ($mycurtheme->get('Description')<>'') {
+                  //  $output .= ' '. ocws_specialnote();
+                //}
+
+		return $output;
+	} // end bookstore_get_credits
+}  // end test for bookstore_get_credits      
+
+/**
+ * Check if WooCommerce is active
+ *
+ * @since Migdaloz 0.0.1
+ *
+ * @return void
+ */
+if ( !function_exists('bookstore_is_commerce_active')) {
+function bookstore_is_commerce_active() {
+	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'classic-commerce/classic-commerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		return true;
+	}
+	else {
+		return false;
+	}
+} // end function bookstore_is_woocommerce_active
+} // end test for function existence
+
+/**
+ * Remove the breadcrumbs from the WooCommerce pages
+ *
+ * @since Migdaloz 0.0.1
+ *
+ * @return void
+ */
+if ( ! function_exists( 'bookstore_remove_woocommerce_breadcrumbs' ) ) {
+	function bookstore_remove_woocommerce_breadcrumbs() {
+		remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20, 0 );
+	}
+}
+
+
  ?>
